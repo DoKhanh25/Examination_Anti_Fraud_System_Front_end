@@ -1,0 +1,5 @@
+<app-navbar class="row" *ngIf="!isLoginPage"></app-navbar>
+<div class="row" [ngClass]="{'toggle-sidebar': layoutService.toggleSideBar()}">
+    <app-side-bar *ngIf="!isLoginPage" class="col"></app-side-bar>
+    <router-outlet class="col"></router-outlet>
+</div>

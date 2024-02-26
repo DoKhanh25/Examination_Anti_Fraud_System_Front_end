@@ -1,0 +1,41 @@
+
+<main id="main" class="main">
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-body pt-4">
+            <h5 class="card-title" style="font-size: 25px; font-weight: bold">{{data.examTitle}}</h5>
+              <h5 class="card-title" style="font-size: 25px; font-weight: bold">Đề bài</h5>
+              <p>
+                {{data.examDescription}}
+              </p>
+  
+            </div>
+          </div>
+        </div>
+  
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+  
+          <div class="card">
+            <div class="card-body pt-4">
+              <h3 class="card-title" style="font-size: 25px; font-weight: bold">Bài làm</h3>
+                
+          
+              <form [formGroup] = "textAreaForm">
+                <textarea cols="64" rows = "10" class ="form-control" style="width: 100%;" formControlName="textArea"></textarea>
+                </form>
+  
+              
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </section>
+  
+  </main><!-- End #main -->
+  
+  

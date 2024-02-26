@@ -1,0 +1,46 @@
+<main id="main" class="main">
+    <section class="section">
+        <div class="row">
+          <div class="col-lg-12">
+    
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Thông tin bài kiểm tra</h5>
+                
+                <p *ngIf="tableData.length == 0">Không có dữ liệu</p>
+                <!-- Table with stripped rows -->
+                <table class="table datatable" *ngIf="tableData.length != 0">
+                  <thead>
+                    <tr>
+                      <th>Bài</th>
+                      <th data-type="date" data-format="YYYY/DD/MM">Bắt đầu</th>
+                      <th data-type="date" data-format="YYYY/DD/MM">Kết thúc</th>
+                      <th>Thời gian làm bài</th>
+                      <th>Sinh viên tham gia</th>
+                      <th>Người ra đề</th>
+                      <th>Trạng thái</th>
+                      <th>Xem kết quả</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of tableData">
+                        <td>{{item.examTitle}}</td>
+                        <td>{{convertDateFormat(item.startTime)}}</td>
+                        <td>{{convertDateFormat(item.endTime)}}</td>
+                        <td>{{secondsToMinutesSeconds(item.duration)}}</td>
+                        <td >{{item.username}}</td>
+                        <td >{{item.createBy}}</td>
+                        <td>{{item.examSolution == null ? 'Chưa nộp' : 'Đã nộp'}}</td>
+                        <td><button class="btn btn-primary" [disabled]="(item.examSolution == null)" (click)="navigateToExamDetail(item.examId, item.username)">Xem bài</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+    
+              </div>
+            </div>
+    
+          </div>
+        </div>
+      </section>    
+</main>

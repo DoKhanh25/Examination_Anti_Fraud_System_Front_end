@@ -1,0 +1,115 @@
+<main id="main" class="main">
+    <section class="section profile">
+        <div class="row">
+          
+          <div class="col-xl-12">
+  
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Tạo bài kiểm tra</h5>
+  
+                <!-- General Form Elements -->
+                <form>
+                  <div class="row mb-3">
+                    <label for="registerName" class="col-sm-2 col-form-label">Loại bài</label>
+                    <div class="col-sm-10">
+                      <textarea type="text" class="form-control" [(ngModel)]="examMangementModel.examTitle" name="title"></textarea>
+                    </div>
+                  </div>
+                  
+                  
+                  <div class="row mb-3">
+                    <label for="authorAccounts" class="col-sm-2 col-form-label">Đề bài</label>
+                    <div class="col-sm-10">
+                        <textarea type="text" [(ngModel)]="examMangementModel.examDescription" class="form-control" name="title"></textarea>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="birthday" class="col-sm-2 col-form-label">Ngày mở bài</label>
+                    <div class="col-sm-10">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Giờ</span>
+                        <input type="text" class="form-control" [(ngModel)]="startTimeHour" name="startTimeHour">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Phút</span>
+                        <input type="text" class="form-control" [(ngModel)]="startTimeMinute" name="startTimeMinute">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                        <p-calendar name="date" [(ngModel)]="examMangementModel.endTime" dateFormat='dd/mm/yy'></p-calendar>
+                      </div>
+                    </div>
+                      
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="birthday" class="col-sm-2 col-form-label">Ngày đóng bài</label>
+                    <div class="col-sm-10">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Giờ</span>
+                        <input type="text" class="form-control" [(ngModel)]="endTimeHour" name="endTimeHour">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Phút</span>
+                        <input type="text" class="form-control" [(ngModel)]="endTimeMinute" name="endTimeMinute">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                        <p-calendar name="date" [(ngModel)]="examMangementModel.endTime" dateFormat='dd/mm/yy'></p-calendar>
+                      </div>
+                    </div>
+                      
+                  </div>
+
+
+                  <div class="row mb-3">
+                    <label for="birthday" class="col-sm-2 col-form-label">Thời gian làm bài</label>
+                    <div class="col-sm-10">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Phút</span>
+                        <input type="text" class="form-control" [(ngModel)]="durationMinute" name="durationMinute">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Giây</span>
+                        <input type="text" class="form-control" [(ngModel)]="durationSecond" name="durationSecond">
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="authorAccounts" class="col-sm-2 col-form-label">Sinh viên tham gia</label>
+                    <div class="col-sm-10">
+                      <p-multiSelect type="text" required
+                        [options]="studentAccountsOption"
+                      [showClear]="true" [filter]="true"
+                      class="form-control" name="selected"
+                      [(ngModel)]="examMangementModel.examParticipantSet" name="selected" 
+                      ></p-multiSelect>
+                    </div>
+                  </div>
+
+              
+            
+                    
+                
+                  <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                      <button type="submit" (click)="submit()" class="btn btn-primary">Đăng bài</button>
+                    </div>
+                  </div>
+  
+                </form><!-- End General Form Elements -->
+  
+              </div>
+            </div>
+  
+          </div>
+  
+         
+        </div>
+      </section>
+</main>
