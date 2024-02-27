@@ -12,11 +12,12 @@
                 <table class="table datatable" *ngIf="tableData.length != 0">
                   <thead>
                     <tr>
-                      <th>Bài</th>
+                      <th>Kì thi</th>
                       <th data-type="date" data-format="YYYY/DD/MM">Bắt đầu</th>
                       <th data-type="date" data-format="YYYY/DD/MM">Kết thúc</th>
                       <th>Thời gian làm bài</th>
                       <th>Giáo viên</th>
+                      <th>Trạng thái bài kiểm tra</th>
                       <th>Trạng thái</th>
                       <th>Làm bài</th>
                     </tr>
@@ -29,7 +30,9 @@
                         <td>{{secondsToMinutesSeconds(item.duration)}}</td>
                         <td >{{item.createBy}}</td>
                         <td>{{getTestStatus(item.startTime, item.endTime)}}</td>
-                        <td><button class="btn btn-primary" [disabled]="!(getTestStatus(item.startTime, item.endTime) == 'Đang trong quá trình') || (item.submitDuration == 0)" (click)="routeToExamDetail(item.id)">Làm bài</button></td>
+                        <td>{{item.examDone == 1 ?'Đã nộp': 'Chưa nộp'}}</td>
+
+                        <td><button class="btn btn-primary" [disabled]="!(getTestStatus(item.startTime, item.endTime) == 'Đang trong quá trình') || (item.examDone == 1)" (click)="routeToExamDetail(item.id)">Làm bài</button></td>
                     </tr>
                   </tbody>
                 </table>

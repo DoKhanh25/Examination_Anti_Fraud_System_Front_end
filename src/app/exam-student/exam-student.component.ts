@@ -1,6 +1,4 @@
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import {ChangeEvent} from "@ckeditor/ckeditor5-angular";
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +7,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ResultModel } from '../model/result.model';
 import { CountdownService } from '../service/countdown/countdown.service';
 import { Subscription } from 'rxjs';
+import { ExamStudentService } from '../service/exam-student/exam-student.service';
+import { CookieService } from 'ngx-cookie-service';
+import { CountdonwEndTimeService } from '../service/countdown-endTime/countdonw-end-time.service';
 @Component({
   selector: 'app-exam-student',
   templateUrl: './exam-student.component.html',
@@ -18,23 +19,25 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
   msv: string = "";
   data: any;
 
-  private subscription: any;
+   subscription: any;
 
   countdown: number = 0;
 
   textAreaForm: FormGroup
+
   examParticipant = {
-    examId: "",
-    username: ""
+    examId: "" as string | null,
+    username: "" as string | null
   }
 
   examSolutionDTO = {
-    examId: "",
-    username: "",
-    examSolution: "",
+    examId: "" as string | null,
+    username: "" as string | null,
+    examSolution: "" as string | null,
     submitTime: new Date(),
     submitDuration: 0,
-    hiddenValue: ""
+    hiddenValue: "" as string | null,
+    examDone: false
   }
 
   constructor(
@@ -44,7 +47,10 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
     public activateRouter: ActivatedRoute,
     public httpClient: HttpClient,
     public countDownService: CountdownService,
-    public router: Router
+    public router: Router,
+    public examStudentService: ExamStudentService,
+    public cookieService: CookieService,
+    public countdonwEndTime: CountdonwEndTimeService
     ){
       this.textAreaForm = fb.group({
         textArea: ""
@@ -53,61 +59,119 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
     this.msv = localStorage.getItem("msv") || "";
   }
 
+  // ngOnInit(): void {
+  //   this.activateRouter.params.subscribe((params) => {
+
+  //     let examId = params['id'];
+  //     this.examParticipant.examId = examId;
+  //     this.examParticipant.username = localStorage.getItem("username") || "";
+  //     this.msv = this.examParticipant.username
+  //     let postExpired = localStorage.getItem("postExpired");
+
+  //     if(this.examParticipant.username == ""){
+  //       this.router.navigate(['/examStudentList']);
+  //       return;  
+  //     }
+      
+      
+  //     this.httpClient.post<ResultModel>(`http://localhost:8080/api/admin/getExamDetail`, this.examParticipant).subscribe((res) => {
+        
+  //     this.data = res.data;
+
+  //       if(res.errorCode == "-1"){
+  //         this.toastrService.error("Bài thi chưa diễn ra", "Thông báo");
+  //         this.router.navigate(['/examStudentList']);
+  //         return;
+  //       }
+  //       if(res.errorCode == "-2"){
+  //         this.toastrService.error("Bài thi đã kết thúc", "Thông báo");
+  //         this.router.navigate(['/examStudentList']);
+  //         return;
+  //       }
+  //       if(res.errorCode == "-3") {
+  //         this.toastrService.error("Bạn đã nộp bài", "Thông báo");
+  //         this.router.navigate(['/examStudentList']);
+  //         return;
+  //       }
+        
+  //       this.textAreaForm.setValue({
+  //         textArea: res.data.examSolution
+  //       })
+        
+        
+        
+        
+  //     })
+  //   })
+  // }
+
   ngOnInit(): void {
-    this.activateRouter.params.subscribe((params) => {
+    this.examParticipant.examId = this.activateRouter.snapshot.params['id'];
+    this.examParticipant.username = localStorage.getItem("username");
+    let postExpired = localStorage.getItem("postExpired");
+    
+    if(this.examParticipant.username == null || this.examParticipant.examId == null){
+      this.router.navigate(['/examStudentList']);
+      return;  
+    }
 
-      let examId = params['id'];
-      this.examParticipant.examId = examId;
-      this.examParticipant.username = localStorage.getItem("username") || "";
+    if(postExpired == null || postExpired == "" || postExpired == undefined){
+      this.examStudentService.postExamFinishTime(this.examParticipant).subscribe((res) => {
+        if(res.errorCode == "0"){
+          localStorage.removeItem("postExpired");
+          localStorage.setItem("postExpired", "true");
+          this.cookieService.set("expiredTime", res.data);
+        }
+        if(res.errorCode == "-1"){
+          console.log(res);
+        }
+      })
+    }
 
-      this.msv = localStorage.getItem("username") || "";
-
-      if(this.examParticipant.username == ""){
-        this.router.navigate(['/examStudentList']);
-        return;  
+    this.subscription = this.countdonwEndTime.countdown(this.cookieService.get("expiredTime")).subscribe((value) => {
+      this.countdown = value;
+      if (value <= 0) {
+        this.postExamSolution(true).subscribe((res) => {
+          console.log(res);
+          this.finishExamReset();
+          this.toastrService.error("Bài thi đã kết thúc", "Thông báo");
+          this.router.navigate(['/examStudentList']);
+        })
       }
+    });
 
-      this.httpClient.post<ResultModel>(`http://localhost:8080/api/admin/getExamDetail`, this.examParticipant).subscribe((res) => {
-        this.data = res.data;
-        if(res.errorCode == "-2"){
-          this.toastrService.error("Bài thi đã kết thúc", "Thông báo");
-          this.router.navigate(['/examStudentList']);
-          return;
-        }
-        if(res.errorCode == "-3"){
-          this.toastrService.error("Bài thi chưa diễn ra", "Thông báo");
-          this.router.navigate(['/examStudentList']);
-          return;
-        }
-        if(res.data.submitDuration == 0) {
-          this.toastrService.error("Bài thi đã kết thúc", "Thông báo");
-          this.router.navigate(['/examStudentList']);
-          return;
-        }
-        
-        this.textAreaForm.setValue({
-          textArea: res.data.examSolution
-        })
-        
-        
-        this.subscription = this.countDownService.countdown(this.data.submitDuration).subscribe({
-          next: value => this.countdown = value,
-          complete: () => {
-            this.postExamSolution(0).subscribe((res) => {});
-            this.toastrService.error("Bài thi đã kết thúc", "Thông báo")
-            this.router.navigate(['/examStudentList']);
-          }
-        })
-        
+    this.examStudentService.getExamDetail(this.examParticipant).subscribe((res) => {
+      this.data = res.data;
+      if(res.errorCode == "-1"){
+        this.toastrService.error("Bài thi chưa diễn ra", "Thông báo");
+        this.router.navigate(['/examStudentList']);
+        return;
+      }
+      if(res.errorCode == "-2"){
+        this.toastrService.error("Bài thi đã kết thúc", "Thông báo");
+        this.router.navigate(['/examStudentList']);
+        return;
+      }
+      if(res.errorCode == "-3") {
+        this.toastrService.error("Bạn đã nộp bài", "Thông báo");
+        this.router.navigate(['/examStudentList']);
+        return;
+      }
+      this.textAreaForm.setValue({
+        textArea: res.data.examSolution
       })
     })
   }
 
+  finishExamReset(){
+    this.cookieService.delete("expiredTime");
+    localStorage.removeItem("hiddenValue");
+    localStorage.removeItem("postExpired");
+  }
+
   ngOnDestroy(): void {
-    this.postExamSolution(this.countdown).subscribe((res) => {
-      console.log(res);
+    this.postExamSolution(false).subscribe((res) => {
     })
-    
     if (this.subscription) {
       this.subscription.unsubscribe();
     };
@@ -140,21 +204,28 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
   }
   
   onClickForm(){
-    this.postExamSolution(0).subscribe((res) => {
-      this.toastrService.success("Nộp bài thành công", "Thông báo");
+    this.postExamSolution(true).subscribe((res) => {
+      if(res.errorCode == "0"){
+        this.finishExamReset();
+        this.toastrService.success("Nộp bài thành công", "Thông báo");
+        this.router.navigate(['/examStudentList']);
+      }
     },
     (error) => {
+      this.finishExamReset();
       this.toastrService.success("Nộp bài thành công", "Thông báo");
       this.router.navigate(['/examStudentList']);
     })
   }
 
-  postExamSolution(cd: number){
+  postExamSolution(done: boolean| null){
     this.examSolutionDTO.examId = this.examParticipant.examId;
     this.examSolutionDTO.username = this.examParticipant.username;
     this.examSolutionDTO.examSolution = this.textAreaForm.value.textArea;
-    this.examSolutionDTO.submitDuration = cd;
-    this.examSolutionDTO.hiddenValue = localStorage.getItem("hiddenValue") || "";
+    this.examSolutionDTO.submitTime = new Date();
+    this.examSolutionDTO.hiddenValue = localStorage.getItem("hiddenValue");
+    if(done != null)
+    this.examSolutionDTO.examDone = done;
 
     return this.httpClient.post<ResultModel>(`http://localhost:8080/api/admin/postExamSolution`, this.examSolutionDTO)
   }

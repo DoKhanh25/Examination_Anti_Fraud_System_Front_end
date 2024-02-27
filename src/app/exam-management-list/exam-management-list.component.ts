@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class ExamManagementListComponent implements OnInit{
 
-  dateFormat = "YYYY-MM-DD HH:mm:ss";
+  dateFormat = "YYYY-MM-DD HH:mm";
 
   tableData: any[] = [];
   constructor(public httpClient: HttpClient, public router: Router) {
@@ -30,7 +30,7 @@ export class ExamManagementListComponent implements OnInit{
   secondsToMinutesSeconds(seconds: number) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    return `${minutes} phút : ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds} giây`;
   }
   navigateToExamDetail(examId: number, studentUsername: string){
     this.router.navigate(['/examDetail', examId, studentUsername]);

@@ -4,12 +4,10 @@
         <div class="col-xl-12">
           <div class="card">
             <div class="card-body pt-4">
-            <h5 class="card-title" style="font-size: 25px; font-weight: bold">{{data.examTitle}}</h5>
-              <h5 class="card-title" style="font-size: 25px; font-weight: bold">Đề bài</h5>
-              <p>
-                {{data.examDescription}}
-              </p>
-  
+            <h5 class="card-title" style="font-size: 25px; font-weight: bold">Kỳ thi: {{data.examTitle}}</h5>
+            <div>
+              <h6 style="font-size: 20px; font-weight: 400">Đề bài: {{data.examDescription}}</h6>
+            </div>
             </div>
           </div>
         </div>
@@ -22,9 +20,6 @@
             <div class="card-body pt-4">
               <h3 class="card-title" style="font-size: 25px; font-weight: bold">Bài làm</h3>
               {{secondsToMinutesSeconds(countdown)}}
-                
-
-
 <!--   
               <select class="form-select form-select-sm mt-3 mb-3">
                 <option value="1">Thuật toán pesudo-space</option>
@@ -34,10 +29,7 @@
           
               <form [formGroup] = "textAreaForm">
                 <textarea cols="64" rows = "10" class ="form-control" style="width: 100%;" formControlName="textArea"></textarea>
-                </form>
-  
-              <!-- <textarea id="textArea"  cols="64" rows = "10" style="width: 100%; border-radius: 3px;" class ="form-control" [(ngModel)]="data"></textarea> -->
-              
+                </form>              
               <button type="submit" class="btn btn-primary mt-3 float-end" (click)="onClickForm()">Nộp bài</button>
             </div>
           </div>

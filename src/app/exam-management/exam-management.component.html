@@ -11,9 +11,9 @@
                 <!-- General Form Elements -->
                 <form>
                   <div class="row mb-3">
-                    <label for="registerName" class="col-sm-2 col-form-label">Loại bài</label>
+                    <label for="registerName" class="col-sm-2 col-form-label">Kì thi</label>
                     <div class="col-sm-10">
-                      <textarea type="text" class="form-control" [(ngModel)]="examMangementModel.examTitle" name="title"></textarea>
+                      <textarea type="text" name="examTiTle" class="form-control" [(ngModel)]="examMangementModel.examTitle"></textarea>
                     </div>
                   </div>
                   
@@ -21,7 +21,7 @@
                   <div class="row mb-3">
                     <label for="authorAccounts" class="col-sm-2 col-form-label">Đề bài</label>
                     <div class="col-sm-10">
-                        <textarea type="text" [(ngModel)]="examMangementModel.examDescription" class="form-control" name="title"></textarea>
+                        <textarea type="text" name="examDescription" [(ngModel)]="examMangementModel.examDescription" class="form-control" ></textarea>
                     </div>
                   </div>
 
@@ -38,7 +38,7 @@
                       </div>
                       <div class="input-group mb-3">
                         <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
-                        <p-calendar name="date" [(ngModel)]="examMangementModel.endTime" dateFormat='dd/mm/yy'></p-calendar>
+                        <p-calendar name="startTimeCalendar" [(ngModel)]="examMangementModel.startTime" dateFormat='dd/mm/yy'></p-calendar>
                       </div>
                     </div>
                       
@@ -57,7 +57,7 @@
                       </div>
                       <div class="input-group mb-3">
                         <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
-                        <p-calendar name="date" [(ngModel)]="examMangementModel.endTime" dateFormat='dd/mm/yy'></p-calendar>
+                        <p-calendar name="endTimeCalendar" [(ngModel)]="examMangementModel.endTime" dateFormat='dd/mm/yy'></p-calendar>
                       </div>
                     </div>
                       
@@ -85,15 +85,12 @@
                       <p-multiSelect type="text" required
                         [options]="studentAccountsOption"
                       [showClear]="true" [filter]="true"
-                      class="form-control" name="selected"
+                      class="form-control" name="examParticipantSetSelected"
                       [(ngModel)]="examMangementModel.examParticipantSet" name="selected" 
                       ></p-multiSelect>
                     </div>
                   </div>
 
-              
-            
-                    
                 
                   <div class="row mb-3">
                     <label class="col-sm-2 col-form-label"></label>

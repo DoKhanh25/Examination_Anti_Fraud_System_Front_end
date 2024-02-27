@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrl: './exam-student-list.component.css'
 })
 export class ExamStudentListComponent implements OnInit{
-  dateFormat = "YYYY-MM-DD HH:mm:ss";
+  dateFormat = "YYYY-MM-DD HH:mm";
   tableData: any[] = [];
   username: string = "";
   constructor(public httpClient: HttpClient, public toastrService: ToastrService, public router: Router){

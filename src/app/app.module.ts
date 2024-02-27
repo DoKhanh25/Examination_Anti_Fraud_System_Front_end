@@ -29,7 +29,7 @@ import { ExamManagementListComponent } from './exam-management-list/exam-managem
 import { ExamStudentListComponent } from './exam-student-list/exam-student-list.component';
 import { ExamStudentComponent } from './exam-student/exam-student.component';
 import { ExamDetailComponent } from './exam-detail/exam-detail.component';
-
+import { CookieService } from 'ngx-cookie-service';
 
 export function tokenGetter(){
   return localStorage.getItem('auth_token')
@@ -77,7 +77,8 @@ export function tokenGetter(){
     AuthenticationService, 
     UserInfoService, 
     CreateAccountService,
-    WatermarkingService
+    WatermarkingService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
