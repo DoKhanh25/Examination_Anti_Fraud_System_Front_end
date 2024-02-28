@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResultModel } from '../model/result.model';
+import moment from 'moment';
 
 @Component({
   selector: 'app-exam-detail',
@@ -14,14 +15,25 @@ export class ExamDetailComponent implements OnInit{
     examId: "",
     username: ""
   }
-  data: any
+  data: any;
+
+  studentName: string = ""
 
   textAreaForm: any;
 
-  constructor(public router: Router, public fb: FormBuilder, public activateRouter: ActivatedRoute, public httpClient: HttpClient) {
+  constructor(public router: Router, 
+    public fb: FormBuilder, 
+    public activateRouter: ActivatedRoute, 
+    public httpClient: HttpClient) {
+      
     this.textAreaForm = fb.group({
       textArea: ""
     })
+  }
+
+  examTimeCalculate(){
+    let submitTime = this.data.submitTime;
+    return moment(submitTime).format('YYYY-MM-DD HH:mm');
   }
 
   ngOnInit(): void {

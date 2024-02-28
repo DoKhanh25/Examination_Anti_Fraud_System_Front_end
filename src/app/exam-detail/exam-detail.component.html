@@ -5,12 +5,9 @@
         <div class="col-xl-12">
           <div class="card">
             <div class="card-body pt-4">
-            <h5 class="card-title" style="font-size: 25px; font-weight: bold">{{data.examTitle}}</h5>
-              <h5 class="card-title" style="font-size: 25px; font-weight: bold">Đề bài</h5>
-              <p>
-                {{data.examDescription}}
-              </p>
-  
+            <h5 class="card-title" style="font-size: 18px; font-weight: bold">Sinh viên: {{examParticipant.username}}</h5>
+            <h5 class="card-title" style="font-size: 18px; font-weight: bold">Kì thi: {{data.examTitle}}</h5>
+            <h6 class="card-title" style="font-size: 18px; font-weight: bold">Đề bài: {{data.examDescription}}</h6>
             </div>
           </div>
         </div>
@@ -18,13 +15,28 @@
       </div>
       <div class="row">
         <div class="col-xl-12">
+          <div class="card">
+            <div class="card-body pt-4">
+              <h3 class="card-title" style="font-size: 15px; font-weight: lighter">Thời điểm nộp bài: {{examTimeCalculate()}} </h3>
+              <h3 class="card-title" style="font-size: 15px; font-weight: lighter">Tình trạng sao chép: {{data.examValid == 0 ? 'Có sao chép' : 'Không sao chép'}} </h3>
+              <h3 class="card-title" style="font-size: 15px; font-weight: lighter">Tải khoản sao chép: {{data.examFraud.join(", ")}} </h3>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
   
           <div class="card">
             <div class="card-body pt-4">
-              <h3 class="card-title" style="font-size: 25px; font-weight: bold">Bài làm</h3>
+              <h3 class="card-title" style="font-size: 20px; font-weight: bold">Bài làm của học sinh</h3>
+
               <form [formGroup] = "textAreaForm">
                 <textarea cols="64" rows = "10" class ="form-control" style="width: 100%;" formControlName="textArea"></textarea>
-                </form>
+              </form>
+              <p-inputNumber [min]="0" [max]="10" suffix=" điểm" class="mt-4 mr-2"></p-inputNumber>
+              <button class="btn btn-primary" style="padding: 11px; margin-left: 15px;">Nhập điểm</button>
   
               
             </div>

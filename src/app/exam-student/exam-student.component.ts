@@ -56,59 +56,16 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
         textArea: ""
       })
 
-    this.msv = localStorage.getItem("msv") || "";
+    this.msv = localStorage.getItem("username") || "";
   }
 
-  // ngOnInit(): void {
-  //   this.activateRouter.params.subscribe((params) => {
 
-  //     let examId = params['id'];
-  //     this.examParticipant.examId = examId;
-  //     this.examParticipant.username = localStorage.getItem("username") || "";
-  //     this.msv = this.examParticipant.username
-  //     let postExpired = localStorage.getItem("postExpired");
-
-  //     if(this.examParticipant.username == ""){
-  //       this.router.navigate(['/examStudentList']);
-  //       return;  
-  //     }
-      
-      
-  //     this.httpClient.post<ResultModel>(`http://localhost:8080/api/admin/getExamDetail`, this.examParticipant).subscribe((res) => {
-        
-  //     this.data = res.data;
-
-  //       if(res.errorCode == "-1"){
-  //         this.toastrService.error("Bài thi chưa diễn ra", "Thông báo");
-  //         this.router.navigate(['/examStudentList']);
-  //         return;
-  //       }
-  //       if(res.errorCode == "-2"){
-  //         this.toastrService.error("Bài thi đã kết thúc", "Thông báo");
-  //         this.router.navigate(['/examStudentList']);
-  //         return;
-  //       }
-  //       if(res.errorCode == "-3") {
-  //         this.toastrService.error("Bạn đã nộp bài", "Thông báo");
-  //         this.router.navigate(['/examStudentList']);
-  //         return;
-  //       }
-        
-  //       this.textAreaForm.setValue({
-  //         textArea: res.data.examSolution
-  //       })
-        
-        
-        
-        
-  //     })
-  //   })
-  // }
 
   ngOnInit(): void {
     this.examParticipant.examId = this.activateRouter.snapshot.params['id'];
     this.examParticipant.username = localStorage.getItem("username");
     let postExpired = localStorage.getItem("postExpired");
+    let expiredTime = "" as string;
     
     if(this.examParticipant.username == null || this.examParticipant.examId == null){
       this.router.navigate(['/examStudentList']);
@@ -118,6 +75,7 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
     if(postExpired == null || postExpired == "" || postExpired == undefined){
       this.examStudentService.postExamFinishTime(this.examParticipant).subscribe((res) => {
         if(res.errorCode == "0"){
+          expiredTime = res.data.toString();
           localStorage.removeItem("postExpired");
           localStorage.setItem("postExpired", "true");
           this.cookieService.set("expiredTime", res.data);
@@ -128,12 +86,12 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
       })
     }
 
-    this.subscription = this.countdonwEndTime.countdown(this.cookieService.get("expiredTime")).subscribe((value) => {
+    this.subscription = this.countdonwEndTime.countdown(expiredTime || this.cookieService.get("expiredTime")).subscribe((value) => {
       this.countdown = value;
-      if (value <= 0) {
+      if (this.countdown == 0) {
+        this.finishExamReset();
         this.postExamSolution(true).subscribe((res) => {
-          console.log(res);
-          this.finishExamReset();
+            console.log(res);
           this.toastrService.error("Bài thi đã kết thúc", "Thông báo");
           this.router.navigate(['/examStudentList']);
         })
