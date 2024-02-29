@@ -35,8 +35,8 @@
               <form [formGroup] = "textAreaForm">
                 <textarea cols="64" rows = "10" class ="form-control" style="width: 100%;" formControlName="textArea"></textarea>
               </form>
-              <p-inputNumber [min]="0" [max]="10" suffix=" điểm" class="mt-4 mr-2"></p-inputNumber>
-              <button class="btn btn-primary" style="padding: 11px; margin-left: 15px;">Nhập điểm</button>
+              <p-inputNumber [min]="0" [max]="10" suffix=" điểm" class="mt-4 mr-2" [(ngModel)]="grade"></p-inputNumber>
+              <button class="btn btn-primary" style="padding: 11px; margin-left: 15px;" (click)="onSubmit()">Nhập điểm</button>
   
               
             </div>
