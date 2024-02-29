@@ -64,17 +64,21 @@ export class AccountManagementComponent {
   }
 
   uploadAccountFile(){
+    if(!this.selectedFile){
+      this.toastrService.error("Chưa chọn file");
+      return;
+    }
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('file', this.selectedFile);
 
-      this.httpClient.post('http://localhost:8080/api/authentication/uploadAccountFile', formData)
+      this.httpClient.post('http://localhost:8080/api/admin/account/uploadAccountFile', formData)
         .subscribe(() => {
           console.log('File uploaded successfully!');
-          // Xử lý thành công sau khi tải lên
+          this.toastrService.info("Tải lên thành công");
         }, (error) => {
           console.error('Error uploading file:', error);
-          // Xử lý lỗi khi tải lên
+          this.toastrService.error("Lỗi server");
         });
     }
   }

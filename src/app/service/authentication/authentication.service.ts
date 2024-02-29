@@ -26,7 +26,7 @@ export class AuthenticationService {
 
   
   getSampleAccountFile(){
-    return this.httpClient.get(`${this.baseUrl}/api/authentication/sampleAccountFile`, {responseType: 'blob'});
+    return this.httpClient.get(`${this.baseUrl}/api/admin/account/sampleAccountFile`, {responseType: 'blob'});
   }
 
 

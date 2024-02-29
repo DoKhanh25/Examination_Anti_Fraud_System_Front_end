@@ -8,10 +8,10 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
-  title = 'Hyperledger';
+  title = 'De an';
   isLoginPage: any;
   constructor(public layoutService: LayoutService, public routerService: Router){
-    
+
   }
 
   ngOnInit(): void {
@@ -25,8 +25,8 @@ export class AppComponent implements OnInit{
   checkLoginRoute(url: string) {
     this.isLoginPage = (url === '/login' || url === '/register');
   }
-  
-  
+
+
 
 
 }
