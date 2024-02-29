@@ -45,7 +45,7 @@ export class ExamDetailComponent implements OnInit{
      this.examParticipant.username = this.activateRouter.snapshot.params['studentUsername'];
      this.httpClient.post<ResultModel>(`http://localhost:8080/api/admin/getExamSolution`, this.examParticipant).subscribe((res) => {
         this.data = res.data;
-        
+        this.grade = this.data.grade;
         
         this.textAreaForm.setValue({
           textArea: res.data.examSolution

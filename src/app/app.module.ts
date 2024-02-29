@@ -31,6 +31,7 @@ import { ExamStudentComponent } from './exam-student/exam-student.component';
 import { ExamDetailComponent } from './exam-detail/exam-detail.component';
 import { CookieService } from 'ngx-cookie-service';
 import { JWT_OPTIONS, JwtInterceptor } from '@auth0/angular-jwt';
+import { BlankPageComponent } from './layout/blank-page/blank-page.component';
 
 export function tokenGetter(){
   return localStorage.getItem('auth_token')
@@ -50,7 +51,8 @@ export function tokenGetter(){
     ExamManagementListComponent,
     ExamStudentListComponent,
     ExamStudentComponent,
-    ExamDetailComponent
+    ExamDetailComponent,
+    BlankPageComponent
   ],
   imports: [
     InputNumberModule,

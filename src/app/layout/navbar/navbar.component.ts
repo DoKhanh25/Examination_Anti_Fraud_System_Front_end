@@ -11,7 +11,7 @@ import { UserInfoService } from '../../service/information/user-info.service';
 })
 export class NavbarComponent implements OnInit{
   username: string | null = "";
-  avatar: any = "assets/img/profile-img.jpg"
+  avatar: any = "assets/avatar_user.png"
   searchQuery: any;
 
   constructor(public layoutService: LayoutService, public authenService: AuthenticationService, ){

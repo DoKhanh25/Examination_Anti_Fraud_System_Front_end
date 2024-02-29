@@ -12,6 +12,8 @@ import { ExamManagementListComponent } from './exam-management-list/exam-managem
 import { ExamStudentListComponent } from './exam-student-list/exam-student-list.component';
 import { ExamStudentComponent } from './exam-student/exam-student.component';
 import { ExamDetailComponent } from './exam-detail/exam-detail.component';
+import { BlankPageComponent } from './layout/blank-page/blank-page.component';
+import { AdminGuard } from './service/admin.guard';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
@@ -38,27 +40,36 @@ const routes: Routes = [
   {
     path: 'accountManagement',
     component: AccountManagementComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'examManagement',
-    component: ExamManagementComponent
+    component: ExamManagementComponent,
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'examManagementList',
-    component: ExamManagementListComponent
+    component: ExamManagementListComponent,
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'examStudentList',
-    component: ExamStudentListComponent
+    component: ExamStudentListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'exam-detail/:id',
-    component: ExamStudentComponent
+    component: ExamStudentComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'examDetail/:id/:studentUsername',
-    component: ExamDetailComponent
+    component: ExamDetailComponent,
+    canActivate: [AuthGuard, AdminGuard]
+  },
+  {
+    path: 'blank-page',
+    component: BlankPageComponent
   }
 ];
 

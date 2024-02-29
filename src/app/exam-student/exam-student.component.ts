@@ -83,6 +83,9 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
         if(res.errorCode == "-1"){
           console.log(res);
         }
+      }, 
+      (err) => {
+        this.router.navigate(['/blank-page']);
       })
     }
 
@@ -118,6 +121,9 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
       this.textAreaForm.setValue({
         textArea: res.data.examSolution
       })
+    }, 
+    (err) => {
+      this.router.navigate(['/blank-page']);
     })
   }
 
