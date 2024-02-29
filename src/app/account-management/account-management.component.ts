@@ -78,7 +78,7 @@ export class AccountManagementComponent {
           this.toastrService.info("Tải lên thành công");
         }, (error) => {
           console.error('Error uploading file:', error);
-          this.toastrService.error("Lỗi server");
+          this.toastrService.error(error.error.message);
         });
     }
   }

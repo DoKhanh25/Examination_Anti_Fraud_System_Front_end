@@ -10,7 +10,7 @@ import { SideBarComponent } from './layout/side-bar/side-bar.component';
 import { LayoutService } from './service/layout/layout.service';
 import { LoginComponent } from './layout/login/login.component';
 import { AuthenticationService } from './service/authentication/authentication.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -30,6 +30,7 @@ import { ExamStudentListComponent } from './exam-student-list/exam-student-list.
 import { ExamStudentComponent } from './exam-student/exam-student.component';
 import { ExamDetailComponent } from './exam-detail/exam-detail.component';
 import { CookieService } from 'ngx-cookie-service';
+import { JWT_OPTIONS, JwtInterceptor } from '@auth0/angular-jwt';
 
 export function tokenGetter(){
   return localStorage.getItem('auth_token')
@@ -66,13 +67,20 @@ export function tokenGetter(){
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        allowedDomains: ['localhost:5000']
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: () => ({
+          tokenGetter: tokenGetter,
+          allowedDomains: ["localhost:8080"]
+
+        }),
+        deps: [],
+        
       }
     })
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     LayoutService, 
     AuthenticationService, 
     UserInfoService, 

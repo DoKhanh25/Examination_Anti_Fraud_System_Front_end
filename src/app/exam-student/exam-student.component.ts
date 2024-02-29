@@ -185,7 +185,7 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
     if(done != null)
     this.examSolutionDTO.examDone = done;
 
-    return this.httpClient.post<ResultModel>(`http://localhost:8080/api/admin/postExamSolution`, this.examSolutionDTO)
+    return this.httpClient.post<ResultModel>(`http://localhost:8080/api/user/postExamSolution`, this.examSolutionDTO)
   }
 
   secondsToMinutesSeconds(seconds: number) {

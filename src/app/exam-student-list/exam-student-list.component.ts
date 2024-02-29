@@ -21,7 +21,7 @@ export class ExamStudentListComponent implements OnInit{
   ngOnInit(): void {
     this.username = localStorage.getItem("username") || "";
     if(this.username == "") return;
-    this.httpClient.get<ResultModel>(`http://localhost:8080/api/admin/getExamProblem/${this.username}`)
+    this.httpClient.get<ResultModel>(`http://localhost:8080/api/user/getExamProblem/${this.username}`)
     .subscribe(
       (res) => {
       this.tableData = res.data;
