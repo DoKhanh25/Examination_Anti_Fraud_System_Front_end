@@ -19,6 +19,7 @@
                       <th>Giáo viên</th>
                       <th>Trạng thái bài kiểm tra</th>
                       <th>Trạng thái</th>
+                      <th>Điểm</th>
                       <th>Làm bài</th>
                     </tr>
                   </thead>
@@ -31,6 +32,7 @@
                         <td >{{item.createBy}}</td>
                         <td>{{getTestStatus(item.startTime, item.endTime)}}</td>
                         <td>{{item.examDone == 1 ?'Đã nộp': 'Chưa nộp'}}</td>
+                        <td>{{item.grade == null ? 'Chưa có điểm' : item.grade}}</td>
 
                         <td><button class="btn btn-primary" [disabled]="!(getTestStatus(item.startTime, item.endTime) == 'Đang trong quá trình') || (item.examDone == 1)" (click)="routeToExamDetail(item.id)">Làm bài</button></td>
                     </tr>

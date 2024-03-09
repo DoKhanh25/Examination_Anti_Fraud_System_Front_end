@@ -30,6 +30,4 @@ export class NavbarComponent implements OnInit{
    this.layoutService.toggleSideBar();
   }
 
-
-
 }
