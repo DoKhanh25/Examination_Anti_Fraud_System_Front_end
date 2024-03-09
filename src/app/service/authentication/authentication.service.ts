@@ -142,7 +142,7 @@ export class AuthenticationService {
   }
 
   changePassword(form: any): Observable<ResultModel>{
-    return this.httpClient.post<ResultModel>(`${this.baseUrl}/api/auth/changePassword`, form)
+    return this.httpClient.post<ResultModel>(`${this.baseUrl}/api/authentication/changePassword`, form)
   }
 
 
