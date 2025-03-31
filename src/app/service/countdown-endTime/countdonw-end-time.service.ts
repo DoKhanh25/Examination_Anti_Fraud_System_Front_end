@@ -8,7 +8,7 @@ export class CountdonwEndTimeService {
 
   constructor() { }
 
-  countdown(endTime: string): Observable<number> {
+  countdown(endTime: any): Observable<number> {
     const endDate = new Date(endTime);
     return new Observable(observer => {
       return interval(1000).pipe(

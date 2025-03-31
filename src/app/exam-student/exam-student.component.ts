@@ -21,8 +21,7 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
 
    subscription: any;
 
-  countdown: number = 0;
-
+  countdown: number = 0;  
   textAreaForm: FormGroup
 
   examParticipant = {
@@ -79,6 +78,7 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
           localStorage.removeItem("postExpired");
           localStorage.setItem("postExpired", "true");
           this.cookieService.set("expiredTime", res.data);
+          this.startCountDown(expiredTime);
         }
         if(res.errorCode == "-1"){
           console.log(res);
@@ -88,18 +88,12 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
         this.router.navigate(['/blank-page']);
       })
     }
+    else {
+      expiredTime = this.cookieService.get("expiredTime");
+      this.startCountDown(expiredTime);
+    }
 
-    this.subscription = this.countdonwEndTime.countdown(expiredTime || this.cookieService.get("expiredTime")).subscribe((value) => {
-      this.countdown = value;
-      if (this.countdown == 0) {
-        this.finishExamReset();
-        this.postExamSolution(true).subscribe((res) => {
-            console.log(res);
-          this.toastrService.error("Bài thi đã kết thúc", "Thông báo");
-          this.router.navigate(['/examStudentList']);
-        })
-      }
-    });
+    
 
     this.examStudentService.getExamDetail(this.examParticipant).subscribe((res) => {
       this.data = res.data;
@@ -125,6 +119,20 @@ export class ExamStudentComponent implements OnInit, OnDestroy{
     (err) => {
       this.router.navigate(['/blank-page']);
     })
+  }
+
+  private startCountDown(expiredTime: any){
+    this.subscription = this.countdonwEndTime.countdown(expiredTime || this.cookieService.get("expiredTime")).subscribe((value) => {
+      this.countdown = value;
+      if (this.countdown == 0) {
+        this.finishExamReset();
+        this.postExamSolution(true).subscribe((res) => {
+            console.log(res);
+          this.toastrService.error("Bài thi đã kết thúc", "Thông báo");
+          this.router.navigate(['/examStudentList']);
+        })
+      }
+    });
   }
 
   finishExamReset(){

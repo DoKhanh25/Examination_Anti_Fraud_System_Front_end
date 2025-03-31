@@ -5,7 +5,7 @@
 @import './assets/vendor/quill/quill.snow.css';
 @import "./assets/vendor/boxicons/css/boxicons.min.css";
 @import "./assets/vendor/bootstrap-icons/bootstrap-icons.css";
-@import "./assets/vendor/bootstrap/css/bootstrap.min.css";
+@import "./assets/vendor/bootstrap/css/bootstrap.min.css" layer(bootstrap);
 @import 'ngx-toastr/toastr';
 @import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
+@import "primeng/resources/primeng.css" layer(primeng);

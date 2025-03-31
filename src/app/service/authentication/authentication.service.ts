@@ -31,7 +31,7 @@ export class AuthenticationService {
 
 
   loginRequest(object: any): Observable<ResultModel> {
-     return this.httpClient.post<any>(`${this.baseUrl}/api/authentication/login`,object)
+     return this.httpClient.post<any>(`${this.baseUrl}/api/authentication/login`, object)
   }
 
   registerRequest(object: any) : Observable<ResultModel> {
